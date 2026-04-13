@@ -1,0 +1,154 @@
+.card {
+  position: relative;
+  width: 384px;
+  height: 520px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e6e8eb;
+  box-shadow: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card__image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+}
+
+.card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__keyword {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1a1b22;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e8eb;
+}
+
+.card__delete-btn,
+.card__save-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #e6e8eb;
+  transition: background-color 0.2s ease;
+}
+
+.card__save-btn {
+  right: 12px;
+}
+
+.card__delete-btn:hover,
+.card__save-btn:hover {
+  background-color: #f5f6f7;
+}
+
+.card__content {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.card__date {
+  font-size: 12px;
+  color: #8b8f97;
+  margin: 0;
+}
+
+.card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1b22;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.card__description {
+  font-size: 14px;
+  color: #1a1b22;
+  line-height: 1.4;
+  flex-grow: 1;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card__link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2f71e5;
+  text-decoration: none;
+  margin-top: auto;
+}
+
+.card__source {
+  font-size: 11px;
+  font-weight: 700;
+  color: #b6bcbf;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+@media (max-width: 1024px) {
+  .card {
+    width: 340px;
+    height: 500px;
+  }
+
+  .card__image-wrapper {
+    height: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    width: 300px;
+    height: 470px;
+  }
+
+  .card__image-wrapper {
+    height: 180px;
+  }
+
+  .card__title {
+    font-size: 16px;
+  }
+
+  .card__description {
+    font-size: 13px;
+  }
+}

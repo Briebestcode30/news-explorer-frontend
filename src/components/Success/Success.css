@@ -1,0 +1,17 @@
+.success {
+  text-align: center;
+  padding: 20px;
+}
+
+.success__title {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.success__button {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  font-size: 16px;
+}
