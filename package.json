@@ -2,7 +2,7 @@
   "name": "news-explorer",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://Briebestcode30.github.io/news-explorer",
+  "homepage": "https://Briebestcode30.github.io/news-explorer-frontend",
   "type": "module",
   "scripts": {
     "dev": "vite",
