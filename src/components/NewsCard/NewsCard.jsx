@@ -59,7 +59,11 @@ function NewsCard({
       return "Sign in to save articles";
     }
 
-    if (isSavedPage || isSaved) {
+    if (isSavedPage) {
+      return "Remove from saved";
+    }
+
+    if (isSaved) {
       return "Remove from saved";
     }
 
@@ -75,17 +79,13 @@ function NewsCard({
           alt={article.title}
         />
 
-        {}
-
-        {article.keyword && (
+        {/* Keyword label (required on saved page) */}
+        {isSavedPage && article.keyword && (
           <span className="card__keyword">{article.keyword}</span>
         )}
 
-        {}
-
+        {/* Hover tooltip */}
         {isHovered && <span className="card__tooltip">{getTooltipText()}</span>}
-
-        {}
 
         <button
           className={

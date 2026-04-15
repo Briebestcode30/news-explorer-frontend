@@ -20,7 +20,6 @@ function App() {
   const [activeModal, setActiveModal] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   const navigate = useNavigate();
@@ -48,10 +47,9 @@ function App() {
 
     setIsLoggedIn(true);
 
-    getUserInfo(token)
+    getUserInfo()
       .then((user) => {
         setCurrentUser(user);
-
         closeModal();
         navigate("/saved-news");
       })
@@ -65,7 +63,6 @@ function App() {
 
     setIsLoggedIn(false);
     setCurrentUser(null);
-
     setActiveModal(null);
 
     navigate("/");
@@ -74,26 +71,25 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
 
-    if (!token) {
-      setIsCheckingAuth(false);
-      return;
-    }
+    async function verifyUser() {
+      try {
+        if (!token) return;
 
-    checkToken(token)
-      .then(() => {
+        await checkToken();
+
         setIsLoggedIn(true);
-        return getUserInfo(token);
-      })
-      .then((user) => {
+
+        const user = await getUserInfo();
         setCurrentUser(user);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
         localStorage.removeItem("jwt");
-      })
-      .finally(() => {
+      } finally {
         setIsCheckingAuth(false);
-      });
+      }
+    }
+
+    verifyUser();
   }, []);
 
   if (isCheckingAuth) {

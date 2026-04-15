@@ -9,28 +9,36 @@ import NewsCardList from "../../components/NewsCardList/NewsCardList";
 function SavedNews({ user }) {
   const [articles, setArticles] = useState([]);
 
-  useEffect(() => {
-    loadArticles();
-  }, [user]);
-
   function loadArticles() {
     getSavedArticles()
       .then((data) => {
-        setArticles(data);
+        setArticles(data || []);
       })
-      .catch(console.error);
+      .catch(() => {
+        setArticles([]);
+      });
   }
+
+  useEffect(() => {
+    if (user) {
+      loadArticles();
+    }
+  }, [user]);
 
   function handleDelete(article) {
     deleteArticle(article)
       .then(() => {
         loadArticles();
       })
-      .catch(console.error);
+      .catch(() => {
+        setArticles([]);
+      });
   }
 
   function getKeywordsText() {
-    const keywords = [...new Set(articles.map((article) => article.keyword))];
+    const keywords = [
+      ...new Set(articles.map((article) => article.keyword).filter(Boolean)),
+    ];
 
     if (keywords.length === 0) return "";
 
@@ -49,8 +57,6 @@ function SavedNews({ user }) {
 
   return (
     <main className="saved-news">
-      {}
-
       <section className="saved-news__header">
         <p className="saved-news__subtitle">Saved articles</p>
 
@@ -65,8 +71,6 @@ function SavedNews({ user }) {
           </p>
         )}
       </section>
-
-      {}
 
       <section className="saved-news__content">
         <div className="saved-news__cards-container">

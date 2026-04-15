@@ -67,7 +67,7 @@ export function login({ email, password }) {
   });
 }
 
-export function checkToken(token) {
+export function checkToken() {
   const storedUser = JSON.parse(localStorage.getItem("mockUser"));
 
   if (!storedUser) {
@@ -77,7 +77,7 @@ export function checkToken(token) {
   return Promise.resolve(storedUser);
 }
 
-export function getUserInfo(token) {
+export function getUserInfo() {
   const storedUser = JSON.parse(localStorage.getItem("mockUser"));
 
   if (!storedUser) {
@@ -102,13 +102,24 @@ export function saveArticle(article) {
     return Promise.resolve(article);
   }
 
-  articles.push(article);
+  // Ensure keyword always exists (reviewer requirement)
+  const articleToSave = {
+    keyword: article.keyword || "General",
+    title: article.title,
+    description: article.description,
+    publishedAt: article.publishedAt,
+    source: article.source,
+    url: article.url,
+    urlToImage: article.urlToImage,
+  };
+
+  articles.push(articleToSave);
 
   localStorage.setItem("savedArticles", JSON.stringify(articles));
 
   console.log("Article saved");
 
-  return Promise.resolve(article);
+  return Promise.resolve(articleToSave);
 }
 
 export function deleteArticle(articleToDelete) {

@@ -28,8 +28,8 @@ function Header({ onLoginClick, isLoggedIn, onLogout, user }) {
               ${
                 location.pathname === "/"
                   ? isSavedPage
-                    ? "header__link_active--light"
-                    : "header__link_active"
+                    ? "header__link--active-light"
+                    : "header__link--active"
                   : ""
               }`}
           >
@@ -46,8 +46,8 @@ function Header({ onLoginClick, isLoggedIn, onLogout, user }) {
                 ${
                   location.pathname === "/saved-news"
                     ? isSavedPage
-                      ? "header__link_active--light"
-                      : "header__link_active"
+                      ? "header__link--active-light"
+                      : "header__link--active"
                     : ""
                 }`}
             >

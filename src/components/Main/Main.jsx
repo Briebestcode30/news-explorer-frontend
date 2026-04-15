@@ -9,6 +9,8 @@ import {
 
 import NewsCardList from "../NewsCardList/NewsCardList";
 
+import "../../fonts/fonts.css";
+import "../../index.css";
 import "./Main.css";
 
 import backgroundImage from "../../assets/backgroundpage.jpg";
@@ -23,27 +25,21 @@ function Main({ isLoggedIn }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      loadSavedArticles();
-    }
-  }, [isLoggedIn]);
+    if (!isLoggedIn) return;
 
-  function loadSavedArticles() {
     getSavedArticles()
       .then((data) => {
-        setSavedArticles(data);
+        setError(false);
+        setSavedArticles(data || []);
       })
       .catch(() => setError(true));
-  }
+  }, [isLoggedIn]);
 
   function handleSearch(e) {
     e.preventDefault();
 
     const trimmedQuery = query.trim();
-
-    if (!trimmedQuery) {
-      return;
-    }
+    if (!trimmedQuery) return;
 
     setError(false);
     setHasSearched(true);
@@ -51,37 +47,43 @@ function Main({ isLoggedIn }) {
 
     getNews(trimmedQuery)
       .then((data) => {
-        setArticles(data.articles);
+        setArticles(data?.articles || []);
       })
-      .catch(() => {
-        setError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .catch(() => setError(true))
+      .finally(() => setIsLoading(false));
   }
 
   function handleSave(article) {
     saveArticle(article)
-      .then(() => loadSavedArticles())
+      .then(() => {
+        getSavedArticles()
+          .then((data) => {
+            setSavedArticles(data || []);
+            setError(false);
+          })
+          .catch(() => setError(true));
+      })
       .catch(() => setError(true));
   }
 
   function handleDelete(article) {
     deleteArticle(article)
-      .then(() => loadSavedArticles())
+      .then(() => {
+        getSavedArticles()
+          .then((data) => {
+            setSavedArticles(data || []);
+            setError(false);
+          })
+          .catch(() => setError(true));
+      })
       .catch(() => setError(true));
   }
 
   return (
     <>
-      {}
-
       <section
         className="main"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-        }}
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="main__container">
           <div className="main__text">
@@ -110,35 +112,27 @@ function Main({ isLoggedIn }) {
         </div>
       </section>
 
-      {}
-
       {isLoading && (
         <section className="results">
           <div className="results__container">
             <div className="main__preloader">
-              <div className="main__spinner"></div>
-
+              <div className="main__spinner" />
               <p className="main__loading-text">Searching for news...</p>
             </div>
           </div>
         </section>
       )}
 
-      {}
-
       {error && !isLoading && (
         <section className="results">
           <div className="results__container">
             <div className="main__not-found">
               <h2 className="main__not-found-title">Something went wrong</h2>
-
               <p className="main__not-found-text">Please try again later.</p>
             </div>
           </div>
         </section>
       )}
-
-      {}
 
       {!isLoading && !error && articles.length > 0 && (
         <section className="results">
@@ -155,8 +149,6 @@ function Main({ isLoggedIn }) {
         </section>
       )}
 
-      {}
-
       {!isLoading && !error && hasSearched && articles.length === 0 && (
         <section className="results">
           <div className="results__container">
@@ -166,9 +158,7 @@ function Main({ isLoggedIn }) {
                 alt="Nothing found"
                 className="main__not-found-image"
               />
-
               <h2 className="main__not-found-title">Nothing found</h2>
-
               <p className="main__not-found-text">
                 Sorry, but nothing matched your search terms.
               </p>
