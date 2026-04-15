@@ -1,7 +1,7 @@
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const newsApiBaseUrl =
-  process.env.NODE_ENV === "production"
+  import.meta.env.MODE === "production"
     ? "https://nomoreparties.co/news/v2/everything"
     : "https://newsapi.org/v2/everything";
 
@@ -13,7 +13,7 @@ export function getNews(query) {
 
   const url =
     `${newsApiBaseUrl}?` +
-    `q=${query}` +
+    `q=${encodeURIComponent(query)}` +
     `&from=${fromDate.toISOString()}` +
     `&to=${toDate.toISOString()}` +
     `&pageSize=100` +
@@ -27,7 +27,10 @@ function handleResponse(res) {
     return res.json();
   }
 
-  return Promise.reject(`Error: ${res.status}`);
+  return res
+    .json()
+    .then((data) => Promise.reject(data.message || `Error: ${res.status}`))
+    .catch(() => Promise.reject(`Error: ${res.status}`));
 }
 
 export function register({ name, email, password }) {

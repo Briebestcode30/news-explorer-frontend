@@ -31,17 +31,18 @@ function NewsCard({
   function handleClick() {
     if (isSavedPage) {
       onDelete(article);
-    } else {
-      if (!isLoggedIn) {
-        alert("Please sign in to save articles");
-        return;
-      }
+      return;
+    }
 
-      if (isSaved) {
-        onDelete(article);
-      } else {
-        onSave(article);
-      }
+    if (!isLoggedIn) {
+      alert("Please sign in to save articles");
+      return;
+    }
+
+    if (isSaved) {
+      onDelete(article);
+    } else {
+      onSave(article);
     }
   }
 
@@ -53,10 +54,20 @@ function NewsCard({
     return isSaved ? bookmarkIcon : bookmarkLightIcon;
   }
 
+  function getTooltipText() {
+    if (!isLoggedIn) {
+      return "Sign in to save articles";
+    }
+
+    if (isSavedPage || isSaved) {
+      return "Remove from saved";
+    }
+
+    return "Save article";
+  }
+
   return (
     <article className="card">
-      {/* IMAGE */}
-
       <div className="card__image-wrapper">
         <img
           className="card__image"
@@ -64,13 +75,17 @@ function NewsCard({
           alt={article.title}
         />
 
-        {/* KEYWORD */}
+        {}
 
         {article.keyword && (
           <span className="card__keyword">{article.keyword}</span>
         )}
 
-        {/* SAVE / DELETE BUTTON */}
+        {}
+
+        {isHovered && <span className="card__tooltip">{getTooltipText()}</span>}
+
+        {}
 
         <button
           className={
@@ -82,16 +97,11 @@ function NewsCard({
           onClick={handleClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          aria-label={isSavedPage ? "Delete article" : "Save article"}
+          aria-label={getTooltipText()}
         >
-          <img
-            src={getIcon()}
-            alt={isSavedPage ? "Delete article" : "Save article"}
-          />
+          <img src={getIcon()} alt={getTooltipText()} />
         </button>
       </div>
-
-      {/* CONTENT */}
 
       <div className="card__content">
         <p className="card__date">{formattedDate}</p>

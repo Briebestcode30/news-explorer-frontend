@@ -21,6 +21,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
   const navigate = useNavigate();
 
   function openLogin() {
@@ -42,14 +44,20 @@ function App() {
   function handleLoginSuccess() {
     const token = localStorage.getItem("jwt");
 
+    if (!token) return;
+
     setIsLoggedIn(true);
 
     getUserInfo(token)
       .then((user) => {
         setCurrentUser(user);
+
+        closeModal();
         navigate("/saved-news");
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   function handleLogout() {
@@ -58,13 +66,18 @@ function App() {
     setIsLoggedIn(false);
     setCurrentUser(null);
 
+    setActiveModal(null);
+
     navigate("/");
   }
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
 
-    if (!token) return;
+    if (!token) {
+      setIsCheckingAuth(false);
+      return;
+    }
 
     checkToken(token)
       .then(() => {
@@ -77,8 +90,15 @@ function App() {
       .catch((err) => {
         console.error(err);
         localStorage.removeItem("jwt");
+      })
+      .finally(() => {
+        setIsCheckingAuth(false);
       });
   }, []);
+
+  if (isCheckingAuth) {
+    return null;
+  }
 
   return (
     <>
@@ -111,7 +131,7 @@ function App() {
                 color: "gray",
               }}
             >
-              Page not found
+              <h1>Page not found</h1>
             </main>
           }
         />

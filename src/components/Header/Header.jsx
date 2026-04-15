@@ -9,46 +9,82 @@ function Header({ onLoginClick, isLoggedIn, onLogout, user }) {
   const isSavedPage = location.pathname === "/saved-news";
 
   return (
-    <header className={`header ${isSavedPage ? "header_theme_light" : ""}`}>
+    <header className="header">
       <div className="header__container">
-        <h1 className="header__logo">News Explorer</h1>
+        <Link
+          to="/"
+          className={`header__logo ${isSavedPage ? "header__logo--light" : ""}`}
+        >
+          News Explorer
+        </Link>
 
         <nav className="header__nav">
+          {/* HOME LINK */}
+
           <Link
             to="/"
-            className={`header__link ${
-              location.pathname === "/" ? "header__link_active" : ""
-            }`}
+            className={`header__link
+              ${isSavedPage ? "header__link--light" : ""}
+              ${
+                location.pathname === "/"
+                  ? isSavedPage
+                    ? "header__link_active--light"
+                    : "header__link_active"
+                  : ""
+              }`}
           >
             Home
           </Link>
 
+          {/* SAVED ARTICLES LINK */}
+
           {isLoggedIn && (
             <Link
               to="/saved-news"
-              className={`header__link ${
-                location.pathname === "/saved-news" ? "header__link_active" : ""
-              }`}
+              className={`header__link
+                ${isSavedPage ? "header__link--light" : ""}
+                ${
+                  location.pathname === "/saved-news"
+                    ? isSavedPage
+                      ? "header__link_active--light"
+                      : "header__link_active"
+                    : ""
+                }`}
             >
-              Saved Articles
+              Saved articles
             </Link>
           )}
 
+          {/* AUTH BUTTON */}
+
           {isLoggedIn ? (
             <button
-              className="header__button header__logout-btn"
+              type="button"
+              className={`header__button header__logout-btn ${
+                isSavedPage ? "header__button--light" : ""
+              }`}
               onClick={onLogout}
+              aria-label="Log out"
             >
               {user?.name || "User"}
 
               <img
                 src={logoutIcon}
-                alt="logout"
-                className="header__logout-icon"
+                alt="Logout icon"
+                className={`header__logout-icon ${
+                  isSavedPage ? "header__logout-icon--light" : ""
+                }`}
               />
             </button>
           ) : (
-            <button className="header__button" onClick={onLoginClick}>
+            <button
+              type="button"
+              className={`header__button ${
+                isSavedPage ? "header__button--light" : ""
+              }`}
+              onClick={onLoginClick}
+              aria-label="Sign in"
+            >
               Sign in
             </button>
           )}

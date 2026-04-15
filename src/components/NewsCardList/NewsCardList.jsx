@@ -26,30 +26,38 @@ function NewsCardList({
 
   return (
     <section className="cards">
-      {/* Title only on main search results page */}
+      {/* TITLE */}
+
       {!isSavedPage && articles.length > 0 && (
         <h2 className="cards__title">Search results</h2>
       )}
 
-      {/* GRID CONTAINER — fixes stacking */}
-      <div className="cards__list">
-        {articlesToDisplay.map((article) => (
-          <NewsCard
-            key={article._id || article.url}
-            article={article}
-            onSave={onSave}
-            onDelete={onDelete}
-            isSaved={isArticleSaved(article)}
-            isLoggedIn={isLoggedIn}
-            isSavedPage={isSavedPage}
-          />
-        ))}
-      </div>
+      {/* CARD LIST */}
 
-      {/* Show More button only on main page */}
+      <ul className="cards__list">
+        {articlesToDisplay.map((article, index) => (
+          <li key={article._id || article.url || index} className="cards__item">
+            <NewsCard
+              article={article}
+              onSave={onSave}
+              onDelete={onDelete}
+              isSaved={isArticleSaved(article)}
+              isLoggedIn={isLoggedIn}
+              isSavedPage={isSavedPage}
+            />
+          </li>
+        ))}
+      </ul>
+
+      {/* SHOW MORE BUTTON */}
+
       {!isSavedPage && visibleCount < articles.length && (
         <div className="cards__actions">
-          <button className="cards__button" onClick={handleShowMore}>
+          <button
+            type="button"
+            className="cards__button"
+            onClick={handleShowMore}
+          >
             Show more
           </button>
         </div>

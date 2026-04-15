@@ -18,11 +18,15 @@
 }
 
 .header__logo {
-  color: rgba(255, 255, 255, 1);
+  color: #ffffff;
   font-family: "Roboto Slab", serif;
   font-size: 20px;
   font-weight: 700;
-  margin: 0;
+  text-decoration: none;
+}
+
+.header__logo--light {
+  color: #1a1b22;
 }
 
 .header__nav {
@@ -32,7 +36,7 @@
 }
 
 .header__link {
-  color: rgba(255, 255, 255, 1);
+  color: #ffffff;
   font-size: 18px;
   font-weight: 500;
   text-decoration: none;
@@ -43,20 +47,33 @@
 }
 
 .header__link:hover {
-  border-bottom: 2px solid rgba(255, 255, 255, 1);
+  border-bottom: 2px solid #ffffff;
 }
 
 .header__link_active {
-  border-bottom: 2px solid rgba(255, 255, 255, 1);
+  border-bottom: 2px solid #ffffff;
+}
+
+.header__link--light {
+  color: #1a1b22;
+}
+
+.header__link--light:hover {
+  border-bottom: 2px solid #1a1b22;
+}
+
+.header__link_active--light {
+  border-bottom: 2px solid #1a1b22;
 }
 
 .header__button {
-  width: 112px;
+  min-width: 112px; /* changed from width */
   height: 48px;
+  padding: 0 16px; /* ensures name fits */
   border-radius: 100px;
-  color: rgba(255, 255, 255, 1);
+  color: #ffffff;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid #ffffff;
   font-size: 16px;
   font-weight: 500;
   display: flex;
@@ -70,32 +87,9 @@
   opacity: 0.8;
 }
 
-.header_theme_light {
-  position: relative;
-  background-color: #ffffff;
-  border-bottom: 1px solid rgba(26, 27, 34, 0.2);
-}
-
-.header_theme_light .header__logo {
-  color: #1a1b22;
-}
-
-.header_theme_light .header__link {
-  color: #1a1b22;
-}
-
-.header_theme_light .header__link:hover {
-  border-bottom: 2px solid #1a1b22;
-}
-
-.header_theme_light .header__link_active {
-  border-bottom: 2px solid #1a1b22;
-}
-
-.header_theme_light .header__button {
+.header__button--light {
   color: #1a1b22;
   border: 1px solid #1a1b22;
-  background-color: transparent;
 }
 
 .header__logout-btn {
@@ -110,6 +104,42 @@
   filter: invert(1);
 }
 
-.header_theme_light .header__logout-icon {
+.header__logout-icon--light {
   filter: invert(0);
+}
+
+@media (max-width: 768px) {
+  .header__container {
+    padding: 16px 40px;
+  }
+
+  .header__nav {
+    gap: 20px;
+  }
+
+  .header__button {
+    min-width: 100px;
+    height: 44px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__container {
+    padding: 16px;
+  }
+
+  .header__logo {
+    font-size: 16px;
+  }
+
+  .header__nav {
+    gap: 12px;
+  }
+
+  .header__button {
+    min-width: 80px;
+    height: 40px;
+    font-size: 12px;
+  }
 }

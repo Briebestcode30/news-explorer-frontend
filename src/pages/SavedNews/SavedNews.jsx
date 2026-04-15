@@ -11,7 +11,7 @@ function SavedNews({ user }) {
 
   useEffect(() => {
     loadArticles();
-  }, []);
+  }, [user]);
 
   function loadArticles() {
     getSavedArticles()
@@ -29,27 +29,48 @@ function SavedNews({ user }) {
       .catch(console.error);
   }
 
+  function getKeywordsText() {
+    const keywords = [...new Set(articles.map((article) => article.keyword))];
+
+    if (keywords.length === 0) return "";
+
+    if (keywords.length === 1) {
+      return keywords[0];
+    }
+
+    if (keywords.length === 2) {
+      return `${keywords[0]} and ${keywords[1]}`;
+    }
+
+    return `${keywords[0]}, ${keywords[1]}, and ${keywords.length - 2} other`;
+  }
+
+  const articleCount = articles.length;
+
   return (
     <main className="saved-news">
-      {/* HEADER TEXT SECTION */}
+      {}
 
       <section className="saved-news__header">
         <p className="saved-news__subtitle">Saved articles</p>
 
         <h1 className="saved-news__title">
-          {user?.name || "User"}, you have {articles.length} saved articles
+          {user?.name || "User"}, you have {articleCount} saved{" "}
+          {articleCount === 1 ? "article" : "articles"}
         </h1>
 
-        <p className="saved-news__keywords">
-          By keywords: Nature, Yellowstone, and 2 other
-        </p>
+        {articleCount > 0 && (
+          <p className="saved-news__keywords">
+            By keywords: {getKeywordsText()}
+          </p>
+        )}
       </section>
 
-      {/* CARDS SECTION */}
+      {}
 
       <section className="saved-news__content">
         <div className="saved-news__cards-container">
-          {articles.length === 0 ? (
+          {articleCount === 0 ? (
             <p className="saved-news__text">No saved articles yet.</p>
           ) : (
             <NewsCardList
