@@ -28,10 +28,7 @@ function Main({ isLoggedIn }) {
     if (!isLoggedIn) return;
 
     getSavedArticles()
-      .then((data) => {
-        setError(false);
-        setSavedArticles(data || []);
-      })
+      .then((data) => setSavedArticles(data || []))
       .catch(() => setError(true));
   }, [isLoggedIn]);
 
@@ -46,21 +43,19 @@ function Main({ isLoggedIn }) {
     setIsLoading(true);
 
     getNews(trimmedQuery)
-      .then((data) => {
-        setArticles(data?.articles || []);
-      })
+      .then((data) => setArticles(data?.articles || []))
       .catch(() => setError(true))
       .finally(() => setIsLoading(false));
   }
 
   function handleSave(article) {
-    saveArticle(article)
+    saveArticle({
+      ...article,
+      keyword: query.trim(),
+    })
       .then(() => {
         getSavedArticles()
-          .then((data) => {
-            setSavedArticles(data || []);
-            setError(false);
-          })
+          .then((data) => setSavedArticles(data || []))
           .catch(() => setError(true));
       })
       .catch(() => setError(true));
@@ -70,10 +65,7 @@ function Main({ isLoggedIn }) {
     deleteArticle(article)
       .then(() => {
         getSavedArticles()
-          .then((data) => {
-            setSavedArticles(data || []);
-            setError(false);
-          })
+          .then((data) => setSavedArticles(data || []))
           .catch(() => setError(true));
       })
       .catch(() => setError(true));
@@ -115,54 +107,35 @@ function Main({ isLoggedIn }) {
       {isLoading && (
         <section className="results">
           <div className="results__container">
-            <div className="main__preloader">
-              <div className="main__spinner" />
-              <p className="main__loading-text">Searching for news...</p>
-            </div>
+            <p>Loading...</p>
           </div>
         </section>
       )}
 
-      {error && !isLoading && (
+      {error && (
         <section className="results">
           <div className="results__container">
-            <div className="main__not-found">
-              <h2 className="main__not-found-title">Something went wrong</h2>
-              <p className="main__not-found-text">Please try again later.</p>
-            </div>
+            <p>Something went wrong</p>
           </div>
         </section>
       )}
 
-      {!isLoading && !error && articles.length > 0 && (
-        <section className="results">
-          <div className="results__container">
-            <NewsCardList
-              articles={articles}
-              savedArticles={savedArticles}
-              onSave={handleSave}
-              onDelete={handleDelete}
-              isLoggedIn={isLoggedIn}
-              isSavedPage={false}
-            />
-          </div>
-        </section>
+      {!isLoading && articles.length > 0 && (
+        <NewsCardList
+          articles={articles}
+          savedArticles={savedArticles}
+          onSave={handleSave}
+          onDelete={handleDelete}
+          isLoggedIn={isLoggedIn}
+          isSavedPage={false}
+        />
       )}
 
-      {!isLoading && !error && hasSearched && articles.length === 0 && (
+      {!isLoading && hasSearched && articles.length === 0 && (
         <section className="results">
           <div className="results__container">
-            <div className="main__not-found">
-              <img
-                src={nothingFoundIcon}
-                alt="Nothing found"
-                className="main__not-found-image"
-              />
-              <h2 className="main__not-found-title">Nothing found</h2>
-              <p className="main__not-found-text">
-                Sorry, but nothing matched your search terms.
-              </p>
-            </div>
+            <img src={nothingFoundIcon} alt="Nothing found" />
+            <p>No results found</p>
           </div>
         </section>
       )}

@@ -5,6 +5,10 @@ const newsApiBaseUrl =
     ? "https://nomoreparties.co/news/v2/everything"
     : "https://newsapi.org/v2/everything";
 
+/* ================================
+   GET NEWS FROM API
+================================ */
+
 export function getNews(query) {
   const toDate = new Date();
 
@@ -22,10 +26,12 @@ export function getNews(query) {
   return fetch(url).then(handleResponse);
 }
 
+/* ================================
+   RESPONSE HANDLER
+================================ */
+
 function handleResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
+  if (res.ok) return res.json();
 
   return res
     .json()
@@ -33,16 +39,14 @@ function handleResponse(res) {
     .catch(() => Promise.reject(`Error: ${res.status}`));
 }
 
+/* ================================
+   AUTH (Mock)
+================================ */
+
 export function register({ name, email, password }) {
-  const user = {
-    name,
-    email,
-    password,
-  };
+  const user = { name, email, password };
 
   localStorage.setItem("mockUser", JSON.stringify(user));
-
-  console.log("User registered:", user);
 
   return Promise.resolve({
     message: "User registered successfully",
@@ -50,7 +54,9 @@ export function register({ name, email, password }) {
 }
 
 export function login({ email, password }) {
-  const storedUser = JSON.parse(localStorage.getItem("mockUser"));
+  const storedUser = JSON.parse(
+    localStorage.getItem("mockUser")
+  );
 
   if (
     !storedUser ||
@@ -68,7 +74,9 @@ export function login({ email, password }) {
 }
 
 export function checkToken() {
-  const storedUser = JSON.parse(localStorage.getItem("mockUser"));
+  const storedUser = JSON.parse(
+    localStorage.getItem("mockUser")
+  );
 
   if (!storedUser) {
     return Promise.reject("User not found");
@@ -78,7 +86,9 @@ export function checkToken() {
 }
 
 export function getUserInfo() {
-  const storedUser = JSON.parse(localStorage.getItem("mockUser"));
+  const storedUser = JSON.parse(
+    localStorage.getItem("mockUser")
+  );
 
   if (!storedUser) {
     return Promise.reject("User not found");
@@ -87,51 +97,80 @@ export function getUserInfo() {
   return Promise.resolve(storedUser);
 }
 
+/* ================================
+   SAVED ARTICLES
+================================ */
+
 export function getSavedArticles() {
-  const articles = JSON.parse(localStorage.getItem("savedArticles")) || [];
+  const articles =
+    JSON.parse(localStorage.getItem("savedArticles")) || [];
 
   return Promise.resolve(articles);
 }
 
 export function saveArticle(article) {
-  const articles = JSON.parse(localStorage.getItem("savedArticles")) || [];
+  const articles =
+    JSON.parse(localStorage.getItem("savedArticles")) || [];
 
-  const alreadySaved = articles.some((item) => item.title === article.title);
+  const alreadySaved = articles.some(
+    (item) => item.title === article.title
+  );
 
   if (alreadySaved) {
     return Promise.resolve(article);
   }
 
-  // Ensure keyword always exists (reviewer requirement)
+  /* ✅ FIXED: guarantee description exists */
+
   const articleToSave = {
     keyword: article.keyword || "General",
-    title: article.title,
-    description: article.description,
+
+    title: article.title || "Untitled article",
+
+    description:
+      article.description ||
+      article.content ||
+      article.text ||
+      "No description available",
+
     publishedAt: article.publishedAt,
-    source: article.source,
+
+    source:
+      article.source?.name ||
+      article.source ||
+      "Unknown source",
+
     url: article.url,
-    urlToImage: article.urlToImage,
+
+    urlToImage:
+      article.urlToImage ||
+      article.image ||
+      "",
   };
 
   articles.push(articleToSave);
 
-  localStorage.setItem("savedArticles", JSON.stringify(articles));
-
-  console.log("Article saved");
+  localStorage.setItem(
+    "savedArticles",
+    JSON.stringify(articles)
+  );
 
   return Promise.resolve(articleToSave);
 }
 
 export function deleteArticle(articleToDelete) {
-  const articles = JSON.parse(localStorage.getItem("savedArticles")) || [];
+  const articles =
+    JSON.parse(localStorage.getItem("savedArticles")) || [];
 
   const updatedArticles = articles.filter(
-    (article) => article.title !== articleToDelete.title,
+    (article) =>
+      article.title !== articleToDelete.title
   );
 
-  localStorage.setItem("savedArticles", JSON.stringify(updatedArticles));
-
-  console.log("Article deleted");
+  localStorage.setItem(
+    "savedArticles",
+    JSON.stringify(updatedArticles)
+  );
 
   return Promise.resolve();
 }

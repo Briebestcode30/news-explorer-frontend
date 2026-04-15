@@ -2,13 +2,11 @@ import { useState } from "react";
 
 import "./NewsCard.css";
 
+import backgroundImage from "../../assets/backgroundpage.jpg";
 import bookmarkIcon from "../../assets/bookmark.svg";
 import bookmarkLightIcon from "../../assets/bookmarklight.svg";
-
 import trashIcon from "../../assets/trash.svg";
 import trashLightIcon from "../../assets/trashlight.svg";
-
-import backgroundImage from "../../assets/backgroundpage.jpg";
 
 function NewsCard({
   article,
@@ -20,7 +18,8 @@ function NewsCard({
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const formattedDate = article.publishedAt
+  // Format date safely
+  const formattedDate = article?.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
@@ -55,19 +54,22 @@ function NewsCard({
   }
 
   function getTooltipText() {
-    if (!isLoggedIn) {
-      return "Sign in to save articles";
-    }
-
-    if (isSavedPage) {
-      return "Remove from saved";
-    }
-
-    if (isSaved) {
-      return "Remove from saved";
-    }
-
+    if (!isLoggedIn) return "Sign in to save articles";
+    if (isSavedPage) return "Remove from saved";
+    if (isSaved) return "Remove from saved";
     return "Save article";
+  }
+
+  // ✅ Universal description handler
+  function getDescription() {
+    if (!article) return "No description available";
+
+    return (
+      article.description ||
+      article.text ||
+      article.content ||
+      "No description available"
+    );
   }
 
   return (
@@ -75,16 +77,14 @@ function NewsCard({
       <div className="card__image-wrapper">
         <img
           className="card__image"
-          src={article.urlToImage || backgroundImage}
-          alt={article.title}
+          src={article?.urlToImage || article?.image || backgroundImage}
+          alt={article?.title || "News image"}
         />
 
-        {/* Keyword label (required on saved page) */}
-        {isSavedPage && article.keyword && (
+        {article?.keyword && (
           <span className="card__keyword">{article.keyword}</span>
         )}
 
-        {/* Hover tooltip */}
         {isHovered && <span className="card__tooltip">{getTooltipText()}</span>}
 
         <button
@@ -97,29 +97,36 @@ function NewsCard({
           onClick={handleClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          aria-label={getTooltipText()}
         >
-          <img src={getIcon()} alt={getTooltipText()} />
+          <img src={getIcon()} alt="action icon" />
         </button>
       </div>
 
       <div className="card__content">
         <p className="card__date">{formattedDate}</p>
 
-        <h3 className="card__title">{article.title}</h3>
+        <h3 className="card__title">{article?.title || "Untitled article"}</h3>
 
-        <p className="card__description">{article.description}</p>
+        {/* ✅ DESCRIPTION — guaranteed to render */}
+        <p className="card__description">
+          {article?.description ||
+            article?.content ||
+            "No description available"}
+        </p>
+        {article?.url && (
+          <a
+            className="card__link"
+            href={article.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read more
+          </a>
+        )}
 
-        <a
-          className="card__link"
-          href={article.url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Read more
-        </a>
-
-        <p className="card__source">{article.source?.name}</p>
+        <p className="card__source">
+          {article?.source?.name || article?.source || "Unknown source"}
+        </p>
       </div>
     </article>
   );
