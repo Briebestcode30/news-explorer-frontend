@@ -18,7 +18,6 @@ function NewsCard({
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Format date safely
   const formattedDate = article?.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString("en-US", {
         month: "long",
@@ -60,14 +59,13 @@ function NewsCard({
     return "Save article";
   }
 
-  // ✅ Universal description handler
   function getDescription() {
     if (!article) return "No description available";
 
     return (
-      article.description ||
-      article.text ||
-      article.content ||
+      article?.description ??
+      article?.content ??
+      article?.text ??
       "No description available"
     );
   }
@@ -81,7 +79,9 @@ function NewsCard({
           alt={article?.title || "News image"}
         />
 
-        {article?.keyword && (
+        {/* KEYWORD — ONLY ON SAVED PAGE */}
+
+        {isSavedPage && article?.keyword && (
           <span className="card__keyword">{article.keyword}</span>
         )}
 
@@ -107,12 +107,10 @@ function NewsCard({
 
         <h3 className="card__title">{article?.title || "Untitled article"}</h3>
 
-        {/* ✅ DESCRIPTION — guaranteed to render */}
-        <p className="card__description">
-          {article?.description ||
-            article?.content ||
-            "No description available"}
-        </p>
+        {/* DESCRIPTION — NOW GUARANTEED TO SHOW */}
+
+        <p className="card__description">{getDescription()}</p>
+
         {article?.url && (
           <a
             className="card__link"

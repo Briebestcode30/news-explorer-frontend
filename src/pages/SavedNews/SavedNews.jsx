@@ -14,8 +14,8 @@ function SavedNews({ user }) {
       .then((data) => {
         setArticles(data || []);
       })
-      .catch(() => {
-        setArticles([]);
+      .catch((err) => {
+        console.error("Failed to load saved articles:", err);
       });
   }
 
@@ -30,8 +30,8 @@ function SavedNews({ user }) {
       .then(() => {
         loadArticles();
       })
-      .catch(() => {
-        setArticles([]);
+      .catch((err) => {
+        console.error("Failed to delete article:", err);
       });
   }
 
@@ -50,14 +50,16 @@ function SavedNews({ user }) {
       return `${keywords[0]} and ${keywords[1]}`;
     }
 
-    return `${keywords[0]}, ${keywords[1]}, and ${keywords.length - 2} other`;
+    return `${keywords[0]}, ${keywords[1]}, and ${
+      keywords.length - 2
+    } other${keywords.length - 2 > 1 ? "s" : ""}`;
   }
 
   const articleCount = articles.length;
 
   return (
     <main className="saved-news">
-      <section className="saved-news__header">
+      <section className="saved-news__header" aria-live="polite">
         <p className="saved-news__subtitle">Saved articles</p>
 
         <h1 className="saved-news__title">

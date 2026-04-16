@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import "./NewsCardList.css";
+
 import NewsCard from "../NewsCard/NewsCard";
 
 function NewsCardList({
-  articles,
+  articles = [],
   savedArticles = [],
   onSave,
   onDelete,
@@ -12,12 +14,42 @@ function NewsCardList({
 }) {
   const [visibleCount, setVisibleCount] = useState(3);
 
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 640) {
+        setVisibleCount(1);
+      } else if (window.innerWidth <= 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    }
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   function isArticleSaved(article) {
-    return savedArticles.some((saved) => saved.title === article.title);
+    return (savedArticles || []).some((saved) => saved.title === article.title);
   }
 
   function handleShowMore() {
-    setVisibleCount((prev) => prev + 3);
+    let increment;
+
+    if (window.innerWidth <= 640) {
+      increment = 2;
+    } else if (window.innerWidth <= 1024) {
+      increment = 2;
+    } else {
+      increment = 3;
+    }
+
+    setVisibleCount((prev) => prev + increment);
   }
 
   const articlesToDisplay = isSavedPage
@@ -36,7 +68,10 @@ function NewsCardList({
 
       <ul className="cards__list">
         {articlesToDisplay.map((article, index) => (
-          <li key={article._id || article.url || index} className="cards__item">
+          <li
+            key={article._id || article.url || `${article.title}-${index}`}
+            className="cards__item"
+          >
             <NewsCard
               article={article}
               onSave={onSave}
