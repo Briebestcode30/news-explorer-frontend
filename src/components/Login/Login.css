@@ -20,21 +20,24 @@
 
 .login__input {
   width: 100%;
-
-  padding: 14px 10px;
-
-  border: 1px solid #d1d2d6;
-  border-radius: 100px;
-
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid #d1d2d6;
+  border-radius: 0;
   font-size: 16px;
-
   outline: none;
-
+  background-color: transparent;
+  box-sizing: border-box;
   transition: border-color 0.2s ease;
 }
 
 .login__input:focus {
-  border-color: #2f71e5;
+  border-bottom: 1px solid #2f71e5;
+}
+
+.login__input::placeholder {
+  color: #b6bcbf;
+  font-size: 16px;
 }
 
 .login__error {
@@ -44,21 +47,15 @@
 }
 
 .login__button {
-  margin-top: 16px;
-
+  margin-top: 24px;
   padding: 16px;
-
   border: none;
   border-radius: 100px;
-
   background-color: #2f71e5;
   color: #ffffff;
-
   font-size: 18px;
   font-weight: 500;
-
   cursor: pointer;
-
   transition: background-color 0.2s ease;
 }
 
@@ -73,12 +70,15 @@
 }
 
 .login__switch {
-  position: relative;
-  left: 135px;
+  margin-top: 16px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .login__link {
+  background: none;
   border: none;
   color: #2f71e5;
-  background-color: white;
+  font-weight: 500;
+  cursor: pointer;
 }

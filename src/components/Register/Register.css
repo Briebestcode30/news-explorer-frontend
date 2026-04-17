@@ -21,20 +21,31 @@
 .register__input {
   width: 100%;
 
-  padding: 14px 16px;
+  padding: 8px 0;
 
-  border: 1px solid #d1d2d6;
-  border-radius: 100px;
+  border: none;
+  border-bottom: 1px solid #d1d2d6;
+
+  border-radius: 0;
 
   font-size: 16px;
 
   outline: none;
 
+  background-color: transparent;
+
+  box-sizing: border-box;
+
   transition: border-color 0.2s ease;
 }
 
 .register__input:focus {
-  border-color: #2f71e5;
+  border-bottom: 1px solid #2f71e5;
+}
+
+.register__input::placeholder {
+  color: #b6bcbf;
+  font-size: 16px;
 }
 
 .register__error {
@@ -44,7 +55,7 @@
 }
 
 .register__button {
-  margin-top: 16px;
+  margin-top: 24px;
 
   padding: 16px;
 

@@ -81,6 +81,7 @@ function Register({ onSwitchToLogin, onSuccess }) {
       <input
         type="text"
         className="register__input"
+        placeholder="Name"
         value={name}
         onChange={handleNameChange}
         required
@@ -93,6 +94,7 @@ function Register({ onSwitchToLogin, onSuccess }) {
       <input
         type="email"
         className="register__input"
+        placeholder="Email"
         value={email}
         onChange={handleEmailChange}
         required
@@ -105,6 +107,7 @@ function Register({ onSwitchToLogin, onSuccess }) {
       <input
         type="password"
         className="register__input"
+        placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
         required

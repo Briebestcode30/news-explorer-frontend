@@ -52,9 +52,7 @@ function Login({ onClose, onSwitchToRegister, onLoginSuccess }) {
       .then((data) => {
         localStorage.setItem("jwt", data.token);
 
-        // IMPORTANT
         onLoginSuccess();
-
         onClose();
       })
       .catch((err) => {
@@ -72,6 +70,7 @@ function Login({ onClose, onSwitchToRegister, onLoginSuccess }) {
       <input
         type="email"
         className="login__input"
+        placeholder="Email"
         value={email}
         onChange={handleEmailChange}
         required
@@ -84,6 +83,7 @@ function Login({ onClose, onSwitchToRegister, onLoginSuccess }) {
       <input
         type="password"
         className="login__input"
+        placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
         required
