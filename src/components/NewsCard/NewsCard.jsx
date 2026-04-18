@@ -79,9 +79,7 @@ function NewsCard({
           alt={article?.title || "News image"}
         />
 
-        {/* KEYWORD — ONLY ON SAVED PAGE */}
-
-        {isSavedPage && article?.keyword && (
+        {article?.keyword && (
           <span className="card__keyword">{article.keyword}</span>
         )}
 
@@ -106,8 +104,6 @@ function NewsCard({
         <p className="card__date">{formattedDate}</p>
 
         <h3 className="card__title">{article?.title || "Untitled article"}</h3>
-
-        {/* DESCRIPTION — NOW GUARANTEED TO SHOW */}
 
         <p className="card__description">{getDescription()}</p>
 

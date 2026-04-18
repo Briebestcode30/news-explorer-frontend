@@ -52,7 +52,7 @@ function Main({ isLoggedIn }) {
         const normalizedArticles =
           data?.articles?.map((article) => ({
             ...article,
-
+            keyword: trimmedQuery,
             description:
               article.description ||
               article.content ||
@@ -75,9 +75,7 @@ function Main({ isLoggedIn }) {
       ...article,
       keyword: query.trim(),
     })
-      .then(() => {
-        return getSavedArticles();
-      })
+      .then(() => getSavedArticles())
       .then((data) => {
         setSavedArticles(data || []);
       })
@@ -88,9 +86,7 @@ function Main({ isLoggedIn }) {
 
   function handleDelete(article) {
     deleteArticle(article)
-      .then(() => {
-        return getSavedArticles();
-      })
+      .then(() => getSavedArticles())
       .then((data) => {
         setSavedArticles(data || []);
       })
@@ -101,8 +97,6 @@ function Main({ isLoggedIn }) {
 
   return (
     <>
-      {/* HERO / SEARCH */}
-
       <section
         className="main"
         style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -134,8 +128,6 @@ function Main({ isLoggedIn }) {
         </div>
       </section>
 
-      {/* LOADING */}
-
       {isLoading && (
         <section className="results">
           <div className="results__container">
@@ -144,8 +136,6 @@ function Main({ isLoggedIn }) {
         </section>
       )}
 
-      {/* ERROR */}
-
       {error && (
         <section className="results">
           <div className="results__container">
@@ -153,8 +143,6 @@ function Main({ isLoggedIn }) {
           </div>
         </section>
       )}
-
-      {/* RESULTS */}
 
       {!isLoading && articles.length > 0 && (
         <NewsCardList
@@ -167,13 +155,10 @@ function Main({ isLoggedIn }) {
         />
       )}
 
-      {/* NOTHING FOUND */}
-
       {!isLoading && hasSearched && articles.length === 0 && (
         <section className="results">
           <div className="results__container">
             <img src={nothingFoundIcon} alt="Nothing found" />
-
             <p>No results found</p>
           </div>
         </section>

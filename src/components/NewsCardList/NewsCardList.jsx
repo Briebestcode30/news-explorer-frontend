@@ -35,7 +35,9 @@ function NewsCardList({
   }, []);
 
   function isArticleSaved(article) {
-    return (savedArticles || []).some((saved) => saved.title === article.title);
+    return savedArticles.some(
+      (saved) => saved.title === article.title || saved.link === article.url,
+    );
   }
 
   function handleShowMore() {
@@ -58,20 +60,13 @@ function NewsCardList({
 
   return (
     <section className="cards">
-      {/* TITLE */}
-
       {!isSavedPage && articles.length > 0 && (
         <h2 className="cards__title">Search results</h2>
       )}
 
-      {/* CARD LIST */}
-
       <ul className="cards__list">
         {articlesToDisplay.map((article, index) => (
-          <li
-            key={article._id || article.url || `${article.title}-${index}`}
-            className="cards__item"
-          >
+          <li key={article._id || article.url || index} className="cards__item">
             <NewsCard
               article={article}
               onSave={onSave}
@@ -83,8 +78,6 @@ function NewsCardList({
           </li>
         ))}
       </ul>
-
-      {/* SHOW MORE BUTTON */}
 
       {!isSavedPage && visibleCount < articles.length && (
         <div className="cards__actions">
