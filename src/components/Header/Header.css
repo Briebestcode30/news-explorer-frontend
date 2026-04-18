@@ -165,6 +165,7 @@
 
   .header__nav_open {
     display: flex;
+    flex-direction: column;
   }
 
   .header__link {
@@ -173,7 +174,7 @@
   }
 
   .header__button {
-    width: 100%;
+    width: 5px;
     justify-content: center;
   }
 }
