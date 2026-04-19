@@ -66,8 +66,8 @@
   max-width: 608px;
   background-color: #ffffff;
   border-radius: 100px;
+  border: 1px solid #d1d2d6;
   overflow: hidden;
-  box-shadow: 0 0 0 1px #d1d2d6;
 }
 
 .main__input {
@@ -76,10 +76,11 @@
   border: none;
   font-size: 16px;
   outline: none;
+  border-radius: 100px 0 0 100px;
 }
 
 .main__input:focus {
-  box-shadow: inset 0 0 0 2px #2f71e5;
+  box-shadow: none;
 }
 
 .main__button {
@@ -91,6 +92,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  border-radius: 100px;
 }
 
 .main__button:hover {
@@ -195,9 +197,8 @@
   .main__search {
     flex-direction: column;
     background: transparent;
-    box-shadow: none;
+    border: none;
     gap: 16px;
-    border-radius: 5px;
   }
 
   .main__input {

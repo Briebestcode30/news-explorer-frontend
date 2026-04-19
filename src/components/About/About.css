@@ -9,11 +9,9 @@
 .about__container {
   width: 100%;
   max-width: 1440px;
-
   display: flex;
   align-items: center;
   gap: 56px;
-
   padding: 0 104px;
   box-sizing: border-box;
 }

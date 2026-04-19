@@ -128,6 +128,16 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    background-color: #1a1b22;
+    border-bottom: none;
+  }
+
+  .header_saved {
+    background-color: #ffffff;
+    border-bottom: 1px solid #d1d2d6;
+  }
+
   .header__container {
     padding: 16px 40px;
     position: relative;
