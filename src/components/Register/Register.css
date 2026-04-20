@@ -1,0 +1,84 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.register__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1b22;
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+.register__label {
+  font-size: 12px;
+  color: #2f71e5;
+  margin-bottom: 4px;
+}
+
+.register__input {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid #d1d2d6;
+  border-radius: 0;
+  font-size: 16px;
+  outline: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.register__input:focus {
+  border-bottom: 1px solid #2f71e5;
+}
+
+.register__input::placeholder {
+  color: #b6bcbf;
+  font-size: 16px;
+}
+
+.register__error {
+  font-size: 12px;
+  color: #ff0000;
+  margin-top: -8px;
+}
+
+.register__button {
+  margin-top: 24px;
+  padding: 16px;
+  border: none;
+  border-radius: 100px;
+  background-color: #2f71e5;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.register__button:hover {
+  background-color: #347eff;
+}
+
+.register__button:disabled {
+  background-color: #e6e8eb;
+  color: #b6bcbf;
+  cursor: not-allowed;
+}
+
+.register__switch {
+  margin-top: 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.register__link {
+  background: none;
+  border: none;
+  color: #2f71e5;
+  font-weight: 500;
+  cursor: pointer;
+}
